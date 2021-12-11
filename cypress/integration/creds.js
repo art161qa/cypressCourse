@@ -1,0 +1,7 @@
+export let tokenKey = "token"
+export let tokenValue = "BLsXZRt_e-3YzjxI4anZf"
+export let employeePhone = "9053330505"
+export let refresh_tokenKey = "refresh_token"
+export let refresh_tokenValue = "WhoHCCe1JmTQojhb9WLX_"
+export let expire_dateKey = "expire_date"
+export let expire_dateValue = "2022-12-06T20:28:52.223Z"
