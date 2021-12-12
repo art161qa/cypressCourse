@@ -6,14 +6,17 @@ describe('Tables', () => {
         cy.contains('Tables & Data').click()
         cy.contains('Smart Table'). click()
         cy.get('.ng2-smart-filters').find('i').click()
-        cy.get('tr[class = "ng-star-inserted"]').find('[placeholder="ID"]').click().type('70')
-        cy.get('tr[class = "ng-star-inserted"]').find('[placeholder="First Name"]').click().type('Artem')
-        cy.get('tr[class = "ng-star-inserted"]').find('[placeholder="Last Name"]').click().type('Razinkin')
-        cy.get('tr[class = "ng-star-inserted"]').find('[placeholder="Username"]').click().type(userName)
-        cy.get('tr[class = "ng-star-inserted"]').find('[placeholder="E-mail"]').click().type('artem@mail.ru')
-        cy.get('tr[class = "ng-star-inserted"]').find('[placeholder="Age"]').click().type('27')
-        cy.get('tr[class = "ng-star-inserted"]').find('i.nb-checkmark').click()
+        
+        cy.get('thead').find('tr').eq(2).then(tableRow => {
+            cy.wrap(tableRow).find('[placeholder="ID"]').click().type('70')
+            cy.wrap(tableRow).find('[placeholder="First Name"]').click().type('Artem')
+            cy.wrap(tableRow).find('[placeholder="Last Name"]').click().type('Razinkin')
+            cy.wrap(tableRow).find('[placeholder="Username"]').click().type(userName)
+            cy.wrap(tableRow).find('[placeholder="E-mail"]').click().type('artem@mail.ru')
+            cy.wrap(tableRow).find('[placeholder="Age"]').click().type('27')
+            cy.wrap(tableRow).find('i.nb-checkmark').click()
 
+        })
     })
     it('Delete user', () => {
         cy.visit('/')
@@ -25,8 +28,7 @@ describe('Tables', () => {
         cy.visit('/')
         cy.contains('Tables & Data').click()
         cy.contains('Smart Table'). click()
-        cy.get('tbody')
-            .contains('tr', '@snow')
+        cy.get('tbody').contains('tr', '@snow')
             .find('i.nb-edit')
             .click()
         cy.get('input[ng-reflect-model = "@snow"]')
@@ -35,6 +37,7 @@ describe('Tables', () => {
             .type('@snow_edited')
         cy.get('i.nb-checkmark')
             .click()
+        cy.contains('tr','Snow').should('contain', '@snow_edited')
 
     })
 })
