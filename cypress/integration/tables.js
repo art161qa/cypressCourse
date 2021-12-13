@@ -1,4 +1,7 @@
 /// <reference types = "cypress" />
+
+import { raw } from "core-js/core/string"
+
 const userName = 'artem_username'
 describe('Tables', () => {
     it('Add new user', () => {
@@ -24,7 +27,7 @@ describe('Tables', () => {
         cy.contains('Smart Table'). click()
         cy.get('tbody').contains('tr', '@mdo').find('i.nb-trash').click()
     })
-    it.only('Edit user', () => {
+    it('Edit user', () => {
         cy.visit('/')
         cy.contains('Tables & Data').click()
         cy.contains('Smart Table'). click()
@@ -38,6 +41,31 @@ describe('Tables', () => {
         cy.get('i.nb-checkmark')
             .click()
         cy.contains('tr','Snow').should('contain', '@snow_edited')
+
+    })
+    it.only('Check table filter', () => {
+        cy.visit('/')
+        cy.contains('Tables & Data').click()
+        cy.contains('Smart Table'). click()
+
+        let age = [20, 30, 200]
+        cy.wrap(age).each( age => {
+            cy.get('thead [placeholder = "Age"]')
+                    .type(age)
+                    cy.wait(500)
+            cy.get('tbody tr').then(tableRow => {
+                cy.wrap(tableRow).each((row) => {
+                    if (age == 200){
+                        cy.get('tbody').should('contain', 'No data found')
+                    }
+                    else {
+                        cy.wrap(row).find('td').eq(6).should('contain', age)
+                    }
+                    
+                })
+            })
+            cy.get('thead [placeholder = "Age"]').clear()
+        })
 
     })
 })

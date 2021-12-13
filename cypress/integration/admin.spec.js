@@ -48,7 +48,7 @@ describe ('Testing authorization on dev-admin', () => {
     //     cy.get('.list-item').contains('Москва').click()
           
     // })
-    it ('Create picker', () => {
+    it.only ('Create picker', () => {
         cy.contains('div', 'Сотрудники').click()
         cy.contains('h5', 'Сборщики'). click().as('goToPickerList')
         cy.wait(500)
