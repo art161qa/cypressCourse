@@ -8,7 +8,7 @@ describe('Datepicker tests', () => {
             let futureMonth = date.toLocaleString('en', {month: 'short'})
             let dateAssert = futureMonth + ' ' + futureDay + ', ' + date.getFullYear()
             cy.get('nb-calendar-navigation').invoke('attr', 'ng-reflect-date').then( dateAttr => {
-                if(!dateAttr.includes(futureMonth)|| (!dateAttr.includes(date.getFullYear()))){
+                if(!dateAttr.includes(futureMonth) || !dateAttr.includes(date.getFullYear())){
                     cy.get('[data-name="chevron-right"]').click()
                     console.log(dateAttr)
                     console.log(futureMonth)
@@ -26,7 +26,7 @@ describe('Datepicker tests', () => {
         cy.contains('Datepicker').click()
         cy.get('input[placeholder = "Form Picker"]').then(inputCalendar => {
             cy.wrap(inputCalendar).click()
-            let dateAssert = selectDayFromCurrent(1000)
+            let dateAssert = selectDayFromCurrent(5)
             cy.wrap(inputCalendar).invoke('prop', 'value').should('contain', dateAssert)
 
         })

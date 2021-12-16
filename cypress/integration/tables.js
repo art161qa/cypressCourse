@@ -1,15 +1,16 @@
 /// <reference types = "cypress" />
 
-import { raw } from "core-js/core/string"
+import { navigate } from "../support/page-object-navigation"
 
 const userName = 'artem_username'
 describe('Tables', () => {
-    it('Add new user', () => {
+    beforeEach('Open app', () => {
         cy.visit('/')
-        cy.contains('Tables & Data').click()
-        cy.contains('Smart Table'). click()
+        navigate.toSection(navigate.sections.tablesAndData, 'Smart Table')
+    })
+    it('Add new user', () => {
+
         cy.get('.ng2-smart-filters').find('i').click()
-        
         cy.get('thead').find('tr').eq(2).then(tableRow => {
             cy.wrap(tableRow).find('[placeholder="ID"]').click().type('70')
             cy.wrap(tableRow).find('[placeholder="First Name"]').click().type('Artem')
@@ -22,15 +23,10 @@ describe('Tables', () => {
         })
     })
     it('Delete user', () => {
-        cy.visit('/')
-        cy.contains('Tables & Data').click()
-        cy.contains('Smart Table'). click()
         cy.get('tbody').contains('tr', '@mdo').find('i.nb-trash').click()
     })
+
     it('Edit user', () => {
-        cy.visit('/')
-        cy.contains('Tables & Data').click()
-        cy.contains('Smart Table'). click()
         cy.get('tbody').contains('tr', '@snow')
             .find('i.nb-edit')
             .click()
@@ -41,13 +37,9 @@ describe('Tables', () => {
         cy.get('i.nb-checkmark')
             .click()
         cy.contains('tr','Snow').should('contain', '@snow_edited')
-
     })
-    it.only('Check table filter', () => {
-        cy.visit('/')
-        cy.contains('Tables & Data').click()
-        cy.contains('Smart Table'). click()
 
+    it('Check table filter', () => {
         let age = [20, 30, 200]
         cy.wrap(age).each( age => {
             cy.get('thead [placeholder = "Age"]')
