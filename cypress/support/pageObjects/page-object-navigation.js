@@ -9,6 +9,7 @@ export class Navigation {
 
     };
     toSection(section,subsection) {
+        cy.visit('/')
         cy.contains(section).click()
         if (subsection){
             cy.contains(subsection).click()
