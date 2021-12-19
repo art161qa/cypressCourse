@@ -28,19 +28,28 @@ export class StepperPage {
         })
     
     }
-
-    goToPreviousStep(){
-        return cy.get('nb-stepper[orientation= "horizontal"]').find('div.step').then( steps => {
-            this.getPrevButton().should('have.class','btn-disabled')
-            this.clickNextButton()
-            cy.wrap(steps).eq(0).should('have.class', 'completed')
-            cy.wrap(steps).eq(1).should('have.class', 'selected').and('not.have.class', 'completed')
-            this.getPrevButton().should('not.have.class','btn-disabled')
-            this.clickPrevButton()
-            cy.wrap(steps).eq(0).should('have.class', 'selected')
-            cy.wrap(steps).eq(1).should('have.class', 'completed')
-            
-
+    checkPrevBtnIsDisabled(){
+        this.getPrevButton().should('have.class', 'btn-disabled')
+    }
+    checkPrevBtnIsActive(){
+        this.getPrevButton().should('not.have.class', 'btn-disabled')
+    }
+    checkNextBtnIsDisabled(){
+        this.getNextButton().should('have.class', 'btn-disabled')
+    }
+    checkNextBtnIsActive(){
+        this.getNextButton().should('not.have.class', 'btn-disabled')
+    }
+    checkStepIsCompleted(stepNumber){
+        return cy.get('nb-stepper[orientation= "horizontal"]').find('div.step').then( steps =>{
+            cy.wrap(steps).eq(stepNumber-1).should('have.class', 'completed')
+            cy.wrap(steps).eq(stepNumber-1).find('div.label-index').should('have.css', 'background-color', 'rgb(51, 102, 255)')
+        })
+    }
+    checkStepIsSelected(stepNumber){
+        return cy.get('nb-stepper[orientation= "horizontal"]').find('div.step').then( steps =>{
+            cy.wrap(steps).eq(stepNumber-1).should('have.class', 'selected')
+            cy.wrap(steps).eq(stepNumber-1).find('div.label-index').should('have.css', 'border-color', 'rgb(39, 75, 219)')
         })
     }
 }
